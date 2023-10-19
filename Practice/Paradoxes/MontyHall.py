@@ -3,9 +3,9 @@ from random import *
 
 
 def monty(n):
-    count_second_choice_win = 0  # подсчёт побед, когда согласился изменить свой выбор + мог бы, если бы согласился
+    count_second_choice_win = 0  # подсчёт побед, когда согласился изменить свой выбор
     count_first_choice_win = 0  # подсчёт побед, когда не согласился
-    count_try = 0
+    win = 0
     for i in range(n):
         priz = randint(1, 3)  # приз здесь
         # print(f"Приз в двери номер {priz}, но участник об этом не знает.")
@@ -21,22 +21,23 @@ def monty(n):
             #  print(f"Я решил, что приз в двери номер {6 - computer - lose_door} и я меняю свой выбор")
             #  print(f"Откройте дверь номер {6 - computer - lose_door}!")
             if 6 - computer - lose_door == priz:
-            #  print(f"Поздравляем! Вы выбрали дверь номер {6 - computer - lose_door} и не ошиблись, приз ваш!")
+                #  print(f"Поздравляем! Вы выбрали дверь номер {6 - computer - lose_door} и не ошиблись, приз ваш!")
                 count_second_choice_win += 1
+                win += 1
             # else:
             #  print(f"Вы изменили свой выбор и оказались не правы! Увы, сегодня не ваш день, в двери номер {6 - computer - lose_door} приза нет(")
         else:
             #  print(f"Я уверен, что приз в двери номер {computer} и не буду менять выбор")
             #  print(f"Откройте дверь номер {computer}!")
             if computer == priz:
-            #  print(f"Поздравляем! Вы выбрали дверь номер {computer} и не ошиблись, приз ваш!")
+                #  print(f"Поздравляем! Вы выбрали дверь номер {computer} и не ошиблись, приз ваш!")
                 count_first_choice_win += 1
-            else:
+                win += 1
+            # else:
             #  print(f"Вы остались при своём мнении и оказались не правы! Увы, сегодня не ваш день, в двери номер {computer} приза нет")
-                count_second_choice_win += 1
+            #  count_second_choice_win += 1
         #  print(' ')
-        count_try += 1
-    return count_try, (int((count_first_choice_win/count_try)*100)), (int((count_second_choice_win/count_try)*100))
+    return win, (int((count_first_choice_win / win) * 100)), (int((count_second_choice_win / win) * 100))
 
-# итого сравниваю процент побед из общего кол-ва, когда он выиграл с первого решения и когда выиграл со 2-ого + мог бы выиграть, если бы поменял
-print(monty(10000))
+
+print(f"Побед, % побед с первого хода,  % побед со 2-го хода соответственно: {monty(10000)}")
