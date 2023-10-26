@@ -47,7 +47,7 @@ def game():
                     print(f"Ваш рекорд: {max(rec, record)}")
                     end = False
             elif letter.lower() == word:
-                print(f"Вы угадали слово '{word.upper()}' целиком и вы выиграли шлюху с 3-им размером сисек!")
+                print(f"Вы угадали слово '{word.upper()}' целиком и вы выиграли ничего!")
                 # guess = [x for x in word]
                 record += 1
                 end = False
