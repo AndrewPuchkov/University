@@ -4,6 +4,7 @@ from random import *
 
 
 def game():
+    l = 0
     difficult = input('Уровень сложности: сложный - введите "3" '
                       '\n средний - введите "2" '
                       '\n новичок - введите "1"')
@@ -29,7 +30,7 @@ def game():
         print(f"Слово загадно: {''.join(guess)}, количество жизней: {life}")
         while end != False:
             letter = input('Введите букву или слово целиком: ').strip()
-            if letter.lower() in word and len(letter) == 1:
+            if letter.lower() in word and len(letter) == 1 and not letter.upper() in ''.join(guess):
                 for i in range(len(word)):
                     if word[i] == letter.lower():
                         guess[i] = letter.upper()
@@ -38,6 +39,8 @@ def game():
                     print(f"Вы угадали слово '{word.upper()}'! Вы выиграли!")
                     record += 1
                     end = False
+            elif letter.upper() in ''.join(guess):
+                life -= 1
             elif not letter.lower() in word:
                 life -= 1
                 print(f"Такой буквы нет в слове(. Вы теряете жизнь.")
@@ -78,5 +81,4 @@ def game():
     with open("rec.txt", mode="w", encoding="utf8") as file:
         file.write(str(max(record, rec)))
 
-
-game()
+# game()

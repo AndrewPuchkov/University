@@ -39,5 +39,4 @@ def monty(n):
         #  print(' ')
     return win, (int((count_first_choice_win / win) * 100)), (int((count_second_choice_win / win) * 100))
 
-
-print(f"Побед, % побед с первого хода,  % побед со 2-го хода соответственно: {monty(10000)}")
+# print(f"Побед, % побед с первого хода,  % побед со 2-го хода соответственно: {monty(10000)}")
