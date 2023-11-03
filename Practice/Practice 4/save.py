@@ -1,4 +1,10 @@
 def read_file(name):
+    '''if not os.path.exists(f"{name}.txt"):
+        flag = False
+        while flag != True:
+            name = input('Такого файла нет, вы ошибились, попробуйте ещё раз: ').strip()
+            if os.path.exists(f"{name}.txt"):
+                flag = True'''
     f = open(f"{name}", mode="r", encoding="utf8")
     strings = f.read().splitlines()
     strings_list = [strings[i].split(' ') for i in range(len(strings))]
@@ -12,7 +18,7 @@ def read_file(name):
     return sorted(words_set)
 
 
-words = read_file('data.txt')
+# words = read_file('data.txt')
 
 
 def save_file(name, words):
@@ -21,5 +27,4 @@ def save_file(name, words):
     for i in range(len(words)):
         new_text.write(f"{(words[i])} \n")
 
-
-save_file('count.txt', words)
+# save_file('count.txt', words)
