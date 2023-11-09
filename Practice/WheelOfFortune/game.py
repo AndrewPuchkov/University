@@ -44,20 +44,21 @@ def game():
             elif not letter.lower() in word:
                 life -= 1
                 print(f"Такой буквы нет в слове(. Вы теряете жизнь.")
-                if life == 0:
-                    print('')
-                    print(f"Жизни закончились, вы проиграли(. Загаданное слово было: {word}")
-                    print(f"Ваш рекорд: {max(rec, record)}")
-                    end = False
             elif letter.lower() == word:
                 print(f"Вы угадали слово '{word.upper()}' целиком и вы выиграли ничего!")
                 # guess = [x for x in word]
                 record += 1
                 end = False
+            if life == 0:
+                print('')
+                print(f"Жизни закончились, вы проиграли(. Загаданное слово было: {word}")
+                print(f"Ваш рекорд: {max(rec, record)}")
+                end = False
+                tryin = False
             if end == True:
                 print(f"{''.join(guess)}, количество жизней: {life}")
         print('')
-        if len(words) != 0:
+        if len(words) != 0 and life != 0:
             cont = input("Хотите ли вы сыграть ещё раз? Если да, то нажмите цифру '1', если нет то '0'. ")
             if cont == '1':
                 tryin = True
@@ -75,7 +76,7 @@ def game():
                         print(f"До следующей игры! Ваш рекорд {record}")
                         tryin = False
                         f = False
-        else:
+        elif len(words) == 0:
             print(f'Слова в списке закончились. Вы просто гений этой игры! Ваш рекорд: {max(rec, record)}')
             tryin = False
     with open("rec.txt", mode="w", encoding="utf8") as file:
