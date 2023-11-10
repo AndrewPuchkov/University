@@ -2,14 +2,14 @@ import re
 
 
 def add_flight(a):
-    datepat = re.compile("Рейс (\d+) отправился в (\w+) в (\d+):(\d+):(\d+)")
+    datepat = re.compile("Рейс (\d+) (отправился|прибыл) (из|в) (\w+) в (\d+):(\d+):(\d+)")
     for m in datepat.finditer(a):
         newtext = datepat.sub(fix_date, a)
         return newtext
 
 
 def fix_date(m):
-    return f"[{m.group(3)}:{m.group(4)}:{m.group(5)}] - Поезд № {m.group(1)} из {m.group(2)} "
+    return f"[{m.group(5)}:{m.group(6)}:{m.group(7)}] - Поезд № {m.group(1)} {m.group(3)} {m.group(4)} "
 
 
 def flights(file):
@@ -25,5 +25,4 @@ def flights(file):
 
 file = open('info_flights.txt', mode='r', encoding='utf-8')
 
-# a = ["Рейс 365 отправился в Сасово в 12:56:30", "сообщение получено в 12:57:20", 'Сохранено в базу данных',
-# 'Рейс 452 отправился в Сочи в 13:04:22', 'сообщение получено в 13:11:32', 'Ошибка записи в базу данных']
+
