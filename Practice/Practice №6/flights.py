@@ -13,7 +13,7 @@ def fix_date(m):
 
 
 def flights(file):
-    info = [x[:-1] for x in file.readlines()]
+    info = file.read().splitlines()
     with open("new_flights.txt", mode="w", encoding="utf8") as new_flights:
         new_flights.write('')
     for string in info:
@@ -24,5 +24,3 @@ def flights(file):
 
 
 file = open('info_flights.txt', mode='r', encoding='utf-8')
-
-
