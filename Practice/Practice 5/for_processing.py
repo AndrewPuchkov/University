@@ -6,7 +6,7 @@ def processing():
         name = input('Введите имя текстового файла, из которого хотите импортировать данные: ').strip()
         f = open(f"{name}.txt")
         n = int(f.readline())
-        a = [int(x) for x in f.readlines()]
+        a = [int(f.readline()) for x in range(n)]
         f.close()
         return a
         '''if not os.path.exists(f"{name}.txt"):
@@ -18,7 +18,8 @@ def processing():
     except FileNotFoundError:
         print("Такого файла нет! Введите название файла ещё раз! ")
         return processing()
-    except NotADirectoryError:
-        print()
+    except ValueError:
+        print('В файле какая-то хуйня. Перепроверь')
+
 
 # print(processing())

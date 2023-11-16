@@ -18,7 +18,6 @@ def read_file(name):
     return sorted(words_set)
 
 
-# words = read_file('data.txt')
 
 
 def save_file(name, words):
