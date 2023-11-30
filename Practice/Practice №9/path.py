@@ -148,8 +148,8 @@ def deleted(choose_for_delete: str) -> None:
         for i in fwe:
             delete(i)
     elif choose_for_delete == '3':
-        str = input('Введите подстроку, с которой хотите удалить файл: ')
-        fwstr = files_with_str(str)
+        estr = input('Введите подстроку, с которой хотите удалить файл: ')
+        fwstr = files_with_str(estr)
         for i in fwstr:
             delete(i)
     elif choose_for_delete == '4':
@@ -168,29 +168,3 @@ def chosen4():
     deleted(choose_for_delete)
 
 
-'''def interface_directory():
-    flag = True
-    while flag != False:
-        print('Выберите действие: ')
-        print('0. Сменить рабочий каталог')
-        print('1. Преобразовать PDF в Docx')
-        print('2. Преобразовать Docx в PDF')
-        print('3. Произвести сжатие изображений')
-        print('4. Удалить группу файлов')
-        print('5. Выход')
-        choose = input('Выберите действие: ')
-        if choose == '0':
-            catalog = input('Введите абсолютный путь каталога: ')
-            print(f"Текущий каталог: {change_catalog(catalog)}")
-        elif choose == '1':
-            chosen1()
-        elif choose == '2':
-            chosen2()
-        elif choose == '3':
-            chosen3()
-        elif choose == '4':
-            chosen4()
-        elif choose == '5':
-            flag = False
-        else:
-            print('Вы ошиблись, введите номер команды ещё раз')'''

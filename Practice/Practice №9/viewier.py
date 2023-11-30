@@ -4,14 +4,16 @@ from path import *
 def show():
     flag = True
     while flag != False:
-        print('Выберите действие: ')
+        print()
         print('0. Сменить рабочий каталог')
         print('1. Преобразовать PDF в Docx')
         print('2. Преобразовать Docx в PDF')
         print('3. Произвести сжатие изображений')
         print('4. Удалить группу файлов')
         print('5. Выход')
+        print()
         choose = input('Выберите действие: ')
+        print()
         if choose == '0':
             catalog = input('Введите абсолютный путь каталога: ')
             print(f"Текущий каталог: {change_catalog(catalog)}")
