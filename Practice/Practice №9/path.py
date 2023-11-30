@@ -69,7 +69,7 @@ def files_with_expansion(expansion: str) -> list:
     return list_with_expansion
 
 
-def chosen1():
+def chosen1() -> None:
     list_with_pdf = pdf_in_directory()
     for i in range(len(list_with_pdf)):
         print(f"{i + 1}. {list_with_pdf[i]}")
@@ -85,7 +85,7 @@ def chosen1():
     print(f'Преобразование файла {list_with_pdf[int(number_pdf) - 1]} из PDF в Docx прошло успешно!')
 
 
-def chosen2():
+def chosen2() -> None:
     list_with_docx = docx_in_directory()
     for i in range(len(list_with_docx)):
         print(f"{i + 1}. {list_with_docx[i]}")
@@ -101,7 +101,7 @@ def chosen2():
     print(f'Преобразование файла {list_with_docx[int(number_docx) - 1]} из Docx в PDF прошло успешно!')
 
 
-def chosen3():
+def chosen3() -> None:
     list_with_images = images_in_directory()
     for i in range(len(list_with_images)):
         print(f"{i + 1}. {list_with_images[i]}")
