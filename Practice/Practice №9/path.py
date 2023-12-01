@@ -94,11 +94,12 @@ def chosen1() -> None:
     if number_pdf == '0':
         for i in range(len(list_with_pdf)):
             change_pdf2docx(list_with_pdf[i])
+        print(f'Преобразование файлов в каталоге из PDF в Docx прошло успешно!')
     elif number_pdf == '-1':
         print()
     else:
         change_pdf2docx(list_with_pdf[int(number_pdf) - 1])
-    print(f'Преобразование файла {list_with_pdf[int(number_pdf) - 1]} из PDF в Docx прошло успешно!')
+        print(f'Преобразование файла {list_with_pdf[int(number_pdf) - 1]} из PDF в Docx прошло успешно!')
 
 
 def chosen2() -> None:
@@ -115,11 +116,12 @@ def chosen2() -> None:
     if number_docx == '0':
         for i in range(len(list_with_docx)):
             change_pdf2docx(list_with_docx[i])
+        print(f'Преобразование всех файлов в каталоге из Docx в PDF прошло успешно!')
     elif number_docx == '-1':
         print()
     else:
         change_docx2pdf(list_with_docx[int(number_docx) - 1])
-    print(f'Преобразование файла {list_with_docx[int(number_docx) - 1]} из Docx в PDF прошло успешно!')
+        print(f'Преобразование файла {list_with_docx[int(number_docx) - 1]} из Docx в PDF прошло успешно!')
 
 
 def chosen3() -> None:
@@ -136,10 +138,12 @@ def chosen3() -> None:
     if number_images == 0:
         for i in range(len(list_with_images)):
             compression_image(list_with_images[i], compression_k)
+            print('Все изображения из каталога сжаты!')
     elif number_images == '-1':
         print()
     else:
         compression_image(list_with_images[int(number_images) - 1], compression_k)
+        print(f'Изображение {list_with_images[int(number_images) - 1]} успешно сжато!')
 
 
 def delete_file(path: str) -> None:
