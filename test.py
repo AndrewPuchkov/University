@@ -3,15 +3,14 @@ import geometry
 
 print(dir(geometry))'''
 
-import geometry
-from geometry import *
+'''import geometry
+from geometry import *'''
 
 '''print(dir(geometry))
 
 import sys
 
 print(sys.path)'''
-
-geometry.show()
-
-print(dir())
+n = int(input('Введите целое число: '))
+for i in range(n):
+    print(i * n)
