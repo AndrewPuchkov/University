@@ -25,7 +25,7 @@ def show_method(file, flag=False):
                 return f"Преобразование файла {' '.join(file)} в каталоге из Docx в PDF прошло успешно!"
             return 'Преобразовать Docx в PDF'
     else:
-        return 'Ты долбаеб'
+        return 'Не то'
 
 def Del(file):
     os.remove(file[0])

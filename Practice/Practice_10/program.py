@@ -68,7 +68,7 @@ def office():
     image_viewer_column = [
         [sg.Text("Доступные команды к файлам:")],
         [sg.Text(size=(40, 5), key="-SHOW-")],
-        #[sg.Listbox(values=[], enable_events=True, size=(40, 10), key="-NEW LIST-")],
+        # [sg.Listbox(values=[], enable_events=True, size=(40, 10), key="-NEW LIST-")],
         [sg.Button('Действие', size=(8, 1), disabled=True, key="-ENTER-")],
         [sg.Button('Удалить', size=(8, 1), disabled=True, button_color='red', key='-DELETE-')],
     ]
@@ -92,8 +92,8 @@ def office():
         except:
             pass
         if event == "-FILE LIST-":
-            #filenames = [values["-FILE LIST-"]]
-            #window["-NEW LIST-"].update(' '.join(filenames))
+            # filenames = [values["-FILE LIST-"]]
+            # window["-NEW LIST-"].update(' '.join(filenames))
             window["-ENTER-"].update(disabled=False)
             window["-SHOW-"].update(show_method(values["-FILE LIST-"]))
             window["-DELETE-"].update(disabled=False)
