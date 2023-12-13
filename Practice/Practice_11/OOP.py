@@ -83,10 +83,9 @@ s0.set_radius(1.6)
 print(s0.is_point_inside(0, -1.5, 0))
 print(s0.get_radius())'''
 
-
 # 3
 
-class SuperStr(str):
+'''class SuperStr(str):
     def __init__(self, stroka):
         self.stroka = stroka
 
@@ -117,3 +116,76 @@ print(int(s) * 2)  # 123123123123 (целое число)
 print(s + "qwe")  # 123123123123qwe
 p = SuperStr("123_321")
 print(p.is_palindrom())  # True
+'''
+
+
+# 4
+
+class Student:
+    def __init__(self, name, surname, gender):
+        self.name = name
+        self.surname = surname
+        self.gender = gender
+        self.finished_courses = []
+        self.courses_in_progress = []
+        self.grades = {}
+
+    def add_courses(self, course_name):
+        self.finished_courses.append(course_name)
+
+    def rate_lecturer(self, lecturer, course, grade):
+        if course in lecturer.corses_attached:
+            if isinstance(grade, int) and grade >= 1 and grade <= 10:
+                if course in lecturer.lecturer_grades:
+                    lecturer.lecturer_grades[course].append(grade)
+                else:
+                    lecturer.lecturer_grades[course] = grade
+            else:
+                return ('Оценка должна быть целым числом от 1 до 10')
+
+    def __str__(self):
+        return f"Имя: {self.name} \n" \
+               f"Фамилия: {self.surname} \n" \
+               f"Средняя оценка за домашние задания:  \n" \
+               f"Курсы в процессе изучения: {self.courses_in_progress} \n" \
+               f"Завершенные курсы: {self.finished_courses}"
+
+
+class Mentor:
+    def __init__(self, name, surname):
+        self.name = name
+        self.surname = surname
+        self.courses_attached = []
+
+
+class Lecturer(Mentor):
+    def __init__(self):
+        Mentor.__init__(self, self.name, self.surname)
+        self.lecturer_grades = {}
+
+    def __str__(self):
+        return f"Имя: {self.name} \n" \
+               f"Фамилия: {self.surname} \n" \
+               f"Средняя оценка за лекции: "
+
+
+class Reviewer(Mentor):
+    def rate_student(self, student, course, grade):
+        if isinstance(grade, int) and grade >= 1 and grade <= 10:
+            if course in student.grades:
+                student.grades[course].append(grade)
+            else:
+                student.grades[course] = [grade]
+        else:
+            print('Оценка должна быть целым числом от 1 до 10')
+
+    def __str__(self):
+        return f"Имя: {self.name} \n" \
+               f"Фамилия: {self.surname} "
+
+
+Loshped = Student('Seryoga', 'Oreshkin', 'Male')
+Angry = Reviewer('Jack', 'Fresko')
+Angry.rate_student(Loshped, 'Linal', 5)
+
+print(Loshped.grades)
