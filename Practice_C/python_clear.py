@@ -9,7 +9,7 @@ def calculate_sin_n_times(n):
     end = time.time()
     return end - start
 
-
+print(calculate_sin_n_times(1000000))
 print(calculate_sin_n_times(10000000))
 print(calculate_sin_n_times(100000000))
 print(calculate_sin_n_times(1000000000))

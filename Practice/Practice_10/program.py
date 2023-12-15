@@ -56,24 +56,48 @@ def program():
 import PySimpleGUI as sg
 import os
 import file_change
-from viewer import show, show_method, Del
+from viewer import show, delete
+
+
+def spin(window):
+    layout = [
+        [sg.Text("Введите степень сжатия изображения(-ий):")],
+        [sg.Spin(values=[x for x in range(1, 96)], readonly=True, key='-SPIN-')],
+        [sg.Button('OK', size=(8, 1), key='-OK-')]
+
+    ]
+    new_window = sg.Window("Image Koef", layout)
+
+    while True:
+        event, values = new_window.read()
+        if event == "Exit" or event == sg.WIN_CLOSED:
+            break
+        elif event == "-OK-":
+            window["-SHOW-"].update(
+                show(window["-NEW LIST-"].get_list_values(), window["-SHOW-"].get().split('\n')[0],
+                     new_window["-SPIN-"].get()))
+        new_window.close()
 
 
 def office():
     file_list_column = [
-        [sg.Text("Image Folder"), sg.In(size=(25, 1), enable_events=True, key="-FOLDER-"),
+        [sg.Text("File Change"), sg.In(size=(25, 1), enable_events=True, key="-FOLDER-"),
          sg.FolderBrowse()],
         [sg.Listbox(values=[], enable_events=True, size=(40, 20), key="-FILE LIST-")],
     ]
     image_viewer_column = [
         [sg.Text("Доступные команды к файлам:")],
         [sg.Text(size=(40, 5), key="-SHOW-")],
-        # [sg.Listbox(values=[], enable_events=True, size=(40, 10), key="-NEW LIST-")],
+        [sg.Listbox(values=[], enable_events=True, size=(40, 10), key="-NEW LIST-")],
         [sg.Button('Действие', size=(8, 1), disabled=True, key="-ENTER-")],
         [sg.Button('Удалить', size=(8, 1), disabled=True, button_color='red', key='-DELETE-')],
+        [sg.Button('Убрать', size=(8, 1), disabled=True, key='-CLEAR-')],
+        [sg.Button('Убрать все', size=(8, 1), disabled=True, key='-CLEAR ALL-')]
     ]
     layout = [[sg.Column(file_list_column), sg.VSeperator(), sg.Column(image_viewer_column), ]]
     window = sg.Window("Image Viewer", layout)
+
+    new_list = []
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
@@ -87,22 +111,105 @@ def office():
                 file_list = []
             fnames = [f for f in file_list if os.path.isfile(os.path.join(folder, f))]
             window["-FILE LIST-"].update(fnames)
-        try:
-            window["-SHOW-"].update(show())
+        '''try:
+            window["-SHOW-"].update(show(values["-FILE LIST-"]))
         except:
-            pass
-        if event == "-FILE LIST-":
-            # filenames = [values["-FILE LIST-"]]
-            # window["-NEW LIST-"].update(' '.join(filenames))
+            pass'''
+        '''if len(window["-SHOW-"].get().split('\n')) == 2:
             window["-ENTER-"].update(disabled=False)
-            window["-SHOW-"].update(show_method(values["-FILE LIST-"]))
+        else:
+            window["-ENTER-"].update(disabled=True)
+            #window["-SHOW-"].update(show_method(values["-FILE LIST-"]))
+        #print(window["-SHOW-"].get().split('\n'))
+        if len(window["-SHOW-"].get().split('\n')) > 0 and window["-SHOW-"].get().split('\n')[0] != '':
             window["-DELETE-"].update(disabled=False)
+        else:
+            window["-DELETE-"].update(disabled=True)'''
+        if event == "-FILE LIST-":
+            if values["-FILE LIST-"][0] not in new_list:
+                new_list.append(values["-FILE LIST-"][0])
+            window["-NEW LIST-"].update(new_list)
+            window["-SHOW-"].update('\n'.join(show(new_list)))
+            window["-CLEAR ALL-"].update(disabled=False)
+            if len(window["-SHOW-"].get().split('\n')) == 2:
+                window["-ENTER-"].update(disabled=False)
+            else:
+                window["-ENTER-"].update(disabled=True)
+            if len(window["-SHOW-"].get().split('\n')) > 0 and window["-SHOW-"].get().split('\n')[0] != '':
+                window["-DELETE-"].update(disabled=False)
+            else:
+                window["-DELETE-"].update(disabled=True)
+
         elif event == "-ENTER-":
-            window["-SHOW-"].update(show_method(values["-FILE LIST-"], flag=True))
+            if 'сжатие' in window["-SHOW-"].get().split('\n')[0]:
+                spin(window)
+            else:
+                window["-SHOW-"].update(
+                    show(window["-NEW LIST-"].get_list_values(), folder + '/' + window["-SHOW-"].get().split("\n")[0]))
+            window["-NEW LIST-"].update('')
+            new_list.clear()
+            window["-SHOW-"].update('\n'.join(show(new_list)))
             window["-ENTER-"].update(disabled=True)
             window["-DELETE-"].update(disabled=True)
+            window["-CLEAR-"].update(disabled=True)
+            window["-CLEAR ALL-"].update(disabled=True)
+
+            folder = values["-FOLDER-"]
+            file_change.change_catalog(folder)
+            try:
+                file_list = os.listdir(folder)
+            except:
+                file_list = []
+            fnames = [f for f in file_list if os.path.isfile(os.path.join(folder, f))]
+            window["-FILE LIST-"].update(fnames)
+
         elif event == "-DELETE-":
-            window["-SHOW-"].update(Del(values["-FILE LIST-"]))
+            window["-SHOW-"].update('')
+            new_list.clear()
+            delete(window["-NEW LIST-"].get_list_values())
+            window["-NEW LIST-"].update('')
             window["-ENTER-"].update(disabled=True)
             window["-DELETE-"].update(disabled=True)
+            window["-CLEAR-"].update(disabled=True)
+            window["-CLEAR ALL-"].update(disabled=True)
+
+            folder = values["-FOLDER-"]
+            file_change.change_catalog(folder)
+            try:
+                file_list = os.listdir(folder)
+            except:
+                file_list = []
+            fnames = [f for f in file_list if os.path.isfile(os.path.join(folder, f))]
+            window["-FILE LIST-"].update(fnames)
+
+        elif event == "-NEW LIST-":
+            window["-CLEAR-"].update(disabled=False)
+
+        elif event == "-CLEAR-":
+            new_list.remove(values["-NEW LIST-"][0])
+            window["-NEW LIST-"].update(new_list)
+            window["-SHOW-"].update('\n'.join(show(new_list)))
+            window["-CLEAR-"].update(disabled=True)
+            if len(window["-NEW LIST-"].get_list_values()) == 0:
+                window["-CLEAR ALL-"].update(disabled=True)
+            if len(window["-SHOW-"].get().split('\n')) == 2:
+                window["-ENTER-"].update(disabled=False)
+            else:
+                window["-ENTER-"].update(disabled=True)
+            if len(window["-SHOW-"].get().split('\n')) > 0 and window["-SHOW-"].get().split('\n')[0] != '':
+                window["-DELETE-"].update(disabled=False)
+            else:
+                window["-DELETE-"].update(disabled=True)
+
+        elif event == "-CLEAR ALL-":
+            window["-NEW LIST-"].update('')
+            new_list.clear()
+            window["-SHOW-"].update('\n'.join(show(new_list)))
+            window["-CLEAR-"].update(disabled=True)
+            window["-CLEAR ALL-"].update(disabled=True)
+            window["-ENTER-"].update(disabled=True)
+            window["-DELETE-"].update(disabled=True)
+
+        if len(window["-NEW LIST-"].get_list_values()) > 0:
+            pass
     window.close()

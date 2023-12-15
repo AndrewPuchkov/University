@@ -2,10 +2,9 @@ import os
 import pdf2docx
 from pdf2docx import *
 import docx2pdf
-from docx2pdf import *
+from docx2pdf import convert
 import PIL
 from PIL import Image
-
 '''cwd = os.getcwd()
 print(cwd)'''
 
@@ -92,6 +91,7 @@ def chosen1(file) -> None:
     number_pdf = input(
         ('Введите номер файла для преобразования в Docx (чтобы преобразовать всё, введите 0; для отмены -1): ')).strip()
     if number_pdf == '0':'''
+    print(list_with_pdf)
     for i in range(len(list_with_pdf)):
         change_pdf2docx(list_with_pdf[i])
     '''elif number_pdf == '-1':
@@ -112,10 +112,10 @@ def chosen2(file) -> None:
     print()
     number_docx = (
         input(('Введите номер файла для преобразования в PDF (чтобы преобразовать всё, введите 0; для отмены -1): ')))'''
-    #if number_docx == '0':
+    # if number_docx == '0':
     for i in range(len(list_with_docx)):
         change_docx2pdf(list_with_docx[i])
-        #print(f'Преобразование всех файлов в каталоге из Docx в PDF прошло успешно!')
+        # print(f'Преобразование всех файлов в каталоге из Docx в PDF прошло успешно!')
     '''elif number_docx == '-1':
         print()
     else:
@@ -123,7 +123,7 @@ def chosen2(file) -> None:
         print(f'Преобразование файла {list_with_docx[int(number_docx) - 1]} из Docx в PDF прошло успешно!')'''
 
 
-def chosen3(list_with_images) -> None:
+def chosen3(list_with_images, koef) -> None:
     '''Выбор 3 в меню. Функция выводит результат функции нахождения изображений в директории.
     Выводит эти файлы.
     Потом пользователь вводит команду для сжатия изобржаений.
@@ -133,9 +133,9 @@ def chosen3(list_with_images) -> None:
     print()'''
     '''number_images = int(input(('Введите номер файла для сжатия (чтобы сжать всё, введите 0, для отмены -1): ')))
     compression_k = int(input('Введите на сколько надо сжать изображение от 0 до 95: '))'''
-    #if number_images == 0:
+    # if number_images == 0:
     for i in range(len(list_with_images)):
-        compression_image(list_with_images[i], 1)
+        compression_image(list_with_images[i], koef)
     '''print('Все изображения из каталога сжаты!')
     elif number_images == '-1':
         print()
