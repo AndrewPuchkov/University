@@ -14,7 +14,6 @@ import os
         list_doc.append('Удаление файлов')
     return ''.join(list_doc)'''
 
-
 '''def show(file, flag_button, flag_del, flag=False):
     list1 = []
     button = ''
@@ -70,3 +69,30 @@ def delete(file):
     for i in range(len(file)):
         os.remove(file[i])
     return 'Файл(-ы) удален'
+
+
+def files_with_str1(str: str, file_list: list) -> list:
+    '''Нахождение файлов с подстрокой в названии'''
+    list_with_str1 = [i for i in file_list if str in ''.join(i.split())]
+    '''list_with_str1 = []
+    for i in file_list:
+        if ''.join(i.split()).indexOf(str) > 0:
+            list_with_str1.append(i)'''
+    return list_with_str1
+
+
+def files_with_start1(start_str: str, file_list: list) -> list:
+    '''Нахождение файлов с подстрокой в начале названия'''
+    list_with_start = [i for i in file_list if i.startswith(start_str)]
+    return list_with_start
+
+
+def files_with_end1(end_str: str, file_list: list) -> list:
+    '''Нахождение файлов с подстрокой в конце названия'''
+    list_with_end = [i for i in file_list if i.split('.')[-2].endswith(end_str)]
+    return list_with_end
+
+def files_with_expansion1(expansion: str, file_list: list) -> list:
+    '''Нахождение файлов по расширению'''
+    list_with_expansion = [i for i in file_list if i.endswith(expansion.rstrip())]
+    return list_with_expansion

@@ -56,7 +56,8 @@ def program():
 import PySimpleGUI as sg
 import os
 import file_change
-from viewer import show, delete
+from file_change import *
+from viewer import show, delete, files_with_str1, files_with_start1, files_with_end1, files_with_expansion1
 
 
 def spin(window):
@@ -79,6 +80,25 @@ def spin(window):
         new_window.close()
 
 
+def gms_window():
+    layout = [
+        [sg.Text("Удаление по подстроке: ", expand_y=True, expand_x=True),
+         sg.InputText(key='--INPUT DELETE STR--', enable_events=True)],
+        [sg.Button('Удалить', size=(8, 1), key='--DELETE STR--', button_color='red')],
+        [sg.Text("Удаление по началу названия: ", expand_y=True, expand_x=True),
+         sg.InputText(key='--INPUT DELETE START STR--', enable_events=True)],
+        [sg.Button('Удалить', size=(8, 1), key='--DELETE START STR--', button_color='red')],
+        [sg.Text("Удалению по концу названия: ", expand_y=True, expand_x=True),
+         sg.InputText(key='--INPUT DELETE END STR--', enable_events=True)],
+        [sg.Button('Удалить', size=(8, 1), key='--DELETE END STR--', button_color='red')],
+        [sg.Text("Удаление по расширению: ", expand_y=True, expand_x=True),
+         sg.InputText(key='--INPUT DELETE EXP--', enable_events=True)],
+        [sg.Button('Удалить', size=(8, 1), key='--DELETE EXP--', button_color='red')],
+    ]
+    # Возвращаем окно с названием "GMS to Deg", содержащее описанный выше интерфейс
+    return sg.Window('GMS to Deg', layout, size=(500, 500), resizable=True, finalize=True)
+
+
 def office():
     file_list_column = [
         [sg.Text("File Change"), sg.In(size=(25, 1), enable_events=True, key="-FOLDER-"),
@@ -90,13 +110,20 @@ def office():
         [sg.Text(size=(40, 5), key="-SHOW-")],
         [sg.Listbox(values=[], enable_events=True, size=(40, 10), key="-NEW LIST-")],
         [sg.Button('Действие', size=(8, 1), disabled=True, key="-ENTER-")],
-        [sg.Button('Удалить', size=(8, 1), disabled=True, button_color='red', key='-DELETE-')],
+        [sg.Button('Удаление файлов', size=(8, 1), disabled=False, button_color='red', key='-DELETE-')],
         [sg.Button('Убрать', size=(8, 1), disabled=True, key='-CLEAR-')],
         [sg.Button('Убрать все', size=(8, 1), disabled=True, key='-CLEAR ALL-')]
     ]
-    layout = [[sg.Column(file_list_column), sg.VSeperator(), sg.Column(image_viewer_column), ]]
-    window = sg.Window("Image Viewer", layout)
+    '''delete_viewer_column = [
 
+        [sg.Text("Доступно удаление по:")],
+        [sg.Text(size=(40, 5), key="-SHOW DELETE-")],
+
+    ]'''
+    layout = [[sg.Column(file_list_column), sg.VSeperator(), sg.Column(image_viewer_column), ]]
+    # layout1 = [[sg.Column()]]
+    window = sg.Window("Image Viewer", layout)
+    # window_for_delete = sg.Window("Удаление файлов", layout1)
     new_list = []
     while True:
         event, values = window.read()
@@ -164,7 +191,46 @@ def office():
             window["-FILE LIST-"].update(fnames)
 
         elif event == "-DELETE-":
-            window["-SHOW-"].update('')
+            window_delete = gms_window()
+            flag_delete = True
+            while flag_delete:
+                window1, event1, values1 = sg.read_all_windows()
+                if window1 == window_delete:
+                    if event1 == '--INPUT DELETE STR--':
+                        delete_str = window1['--INPUT DELETE STR--'].get()
+                        print(delete_str)
+                    elif event1 == sg.WINDOW_CLOSED:
+                        window1.close()
+                        flag_delete = False
+                    elif event1 == '--INPUT DELETE START STR--':
+                        delete_start_str = window1['--INPUT DELETE START STR--'].get()
+                    elif event1 == '--INPUT DELETE END STR--':
+                        delete_end_str = window1['--INPUT DELETE END STR--'].get()
+                    elif event1 == '--INPUT DELETE EXP--':
+                        delete_exp = window1['--INPUT DELETE EXP--'].get()
+                    elif event1 == '--DELETE STR--':
+                        fws1 = files_with_str1(delete_str, file_list)
+                        for i in fws1:
+                            os.remove(i)
+                        # print(files_with_str1(delete_str, file_list))
+                    elif event1 == '--DELETE START STR--':
+                        fwstart1 = files_with_start1(delete_start_str, file_list)
+                        for i in fwstart1:
+                            os.remove(i)
+                        # print(files_with_start1(delete_start_str, file_list))
+                    elif event1 == '--DELETE END STR--':
+                        fwe1 = files_with_end1(delete_end_str, file_list)
+                        for i in fwe1:
+                            os.remove(i)
+                        # print(files_with_end1(delete_end_str, file_list))
+                    elif event1 == '--DELETE EXP--':
+                        fwexp1 = files_with_expansion1(delete_exp, file_list)
+                        for i in fwexp1:
+                            os.remove(i)
+
+                        # print(files_with_expansion1(delete_exp, file_list))
+
+            '''window["-SHOW-"].update('')
             new_list.clear()
             delete(window["-NEW LIST-"].get_list_values())
             window["-NEW LIST-"].update('')
@@ -172,9 +238,8 @@ def office():
             window["-DELETE-"].update(disabled=True)
             window["-CLEAR-"].update(disabled=True)
             window["-CLEAR ALL-"].update(disabled=True)
-
             folder = values["-FOLDER-"]
-            file_change.change_catalog(folder)
+            file_change.change_catalog(folder)'''
             try:
                 file_list = os.listdir(folder)
             except:
