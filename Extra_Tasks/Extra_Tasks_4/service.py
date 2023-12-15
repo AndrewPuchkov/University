@@ -7,6 +7,7 @@ import urllib.request
 ssl._create_default_https_context = ssl._create_unverified_context
 
 adres_request = urllib.request.urlopen("https://msk.spravker.ru/avtoservisy-avtotehcentry/").read().decode()
+print(adres_request)
 pattern = r"(?:class=\"org-widget-header__title-link\">)(?P<services>[^<]+)(?:[^0]+)(?:location\">[\s]+)(?P<street>[^<]+\b)(?:[^0-9]+)(?:value\">)(?P<number>[^<]+\b)(?:[^0-9,]+)(?:value\">)(?P<time>[^<]+)"
 matches = re.findall(pattern, adres_request)
 
@@ -22,3 +23,9 @@ with open('data.csv', 'w', encoding='UTF-8', newline='') as file:
                 i[j] = ''
         i = list(filter(None, a))'''
         writer.writerow(filter_match)
+
+
+'''(?:[.]+)(?:<span class=\"b-card2-v2__price-val\">)(?P<values>)'''
+
+#(?:onerror=\"this\.onerror=null;this\.src='/assets/img/no-photo-with-cat\.png';\"[\s]+title=\")(?P<phones>[^\"]+)
+#(?:<span class=\"b-card2-v2__price-val\">)(?P<price>[^<]+)
